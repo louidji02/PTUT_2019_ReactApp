@@ -12,6 +12,7 @@ class viewSignIn extends React.Component {
     super(props);
     this.state = {
       date: null,
+      gender: -1,
       jobList: [{
         value: 'Sans emploi',
       }, {
@@ -19,21 +20,38 @@ class viewSignIn extends React.Component {
       }, {
         value: 'Cheminot',
       }],
+      selectedJob: "",
     }
+  }
+
+  setGender(gender){
+    this.setState({gender: gender});
+  }
+
+  setJob(job){
+    this.setState({selectedJob: job});
   }
 
   
     render() {
       return ( 
         <View style={styles.view}>
-          <TouchableOpacity name="avatarButton" title="Avatar" style={styles.avatar}><Image
-            source={require('./../assets/avatarButton.png')}
-          /></TouchableOpacity>
+          <TouchableOpacity name="avatarButton" title="Avatar" style={styles.avatar}>
+            <Image source={require('./../assets/avatarButton.png')}/>{/**TODO : Chercher image dans le téléphone */}
+          </TouchableOpacity>
 
           {/* selection du genre */}
-          <Button name="genderM" title="Homme"></Button>
-          <Button name="genderF" title="Femme"></Button>
-          <Button name="genderO" title="Non renseigné"></Button>
+          <View style={styles.gender}>
+            <TouchableOpacity name="genderM" style={styles.genderButton} title="Homme" onPress={() => this.setGender(0)}>
+              <Image source={require('./../assets/menIcon.png')}/>
+            </TouchableOpacity>
+            <TouchableOpacity name="genderF" style={styles.genderButton} title="Femme" onPress={() => this.setGender(2)}>
+              <Image source={require('./../assets/womenIcon.png')}/>
+            </TouchableOpacity>
+            <TouchableOpacity name="genderO" style={styles.genderButton} title="Non renseigné" onPress={() => this.setGender(1)}>
+              <Image source={require('./../assets/otherIcon.png')}/>
+            </TouchableOpacity>
+          </View>
 
           {/* Age */}
           <DatePicker
@@ -46,19 +64,21 @@ class viewSignIn extends React.Component {
             onDateChange={(date) => {this.setState({date: date})}}
             style={styles.datePicker}
           />
-          <Dropdown
-            label='Métier'
-            data = {this.state.jobList}
-            style = {styles.dropdown}
-          />
+          <View style= {styles.dropdown}>
+            <Dropdown
+              label='Métier'
+              data = {this.state.jobList}
+              onChangeText = {(value) => this.setJob(value)}
+              //style = {styles.dropdown}
+            />
+          </View>
 
-          
           <TouchableOpacity 
             name="nextButton" 
             title="Suivant >" 
             style={styles.nextButton}
-            onPress={() => this.props.navigation.navigate("ViewSetting")}>
-              <Text style={styles.text}>Suivant ></Text>
+            onPress={() => this.props.navigation.navigate("ViewHome")}>
+              <Text style={styles.text}>Suivant →</Text>
           </TouchableOpacity>
         </View>
       )
@@ -68,29 +88,52 @@ class viewSignIn extends React.Component {
   const styles = StyleSheet.create({
     avatar: {
       alignContent: 'center',
+      padding: '2%'
+      //width: '50%'
+    },
+    gender: {
+      padding: 20,
+      flexDirection: "row",
+    },
+    genderButton: {
+      padding: '2%',
+      borderColor: '#105AA6',
+      borderRadius: 10,
+      borderWidth: 1,
+      backgroundColor: 'white',
     },
     view: {
       flex: 1,
-      padding: 60,
+      padding: '15%',
       backgroundColor: '#105AA6',
-      justifyContent: "center",
+      //justifyContent: "center",
       alignItems: "center",
     },
     dropdown: {
-      backgroundColor: '#E5E5E5',
-      flexDirection: "row",
-      width: 300,
+      backgroundColor: 'white',
+      width: '80%',
+      margin: '3%',
+      justifyContent: "center",
+      height: 48,
     },
     nextButton: {
       backgroundColor: 'red',
-      justifyContent: "center"
+      justifyContent: "center",
+      height: '8%',
+      width: '40%',
+      minHeight: 30,
+      minWidth: 80, 
+      margin: '3%',
     },
     text: {
       textAlign: "center",
+      color: 'white',
+      fontWeight: 'bold',
     },
     datePicker: {
-      backgroundColor: "#E5E5E5",
-      
+      backgroundColor: "white",
+      width: '80%',
+      margin: '3%',
     }
   });
 

@@ -2,6 +2,7 @@ import { createStackNavigator } from 'react-navigation-stack';
 import { createAppContainer } from 'react-navigation'
 import ViewSignIn from '../Components/ViewSignIn'
 import ViewSettings from '../Components/ViewSettings'
+import ViewHome from '../Components/ViewHome'
 
 
 const ViewSignInStackNavigator = createStackNavigator({
@@ -16,6 +17,12 @@ const ViewSignInStackNavigator = createStackNavigator({
         navigationOptions: {
             title: "Préférences"
         }
+    },
+    ViewHome: {
+        screen: ViewHome,
+        // navigationOptions: {
+        //     title: "Préférences"
+        // }
     }
 });
 
